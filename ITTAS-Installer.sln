@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITTAS-Installer", "ITTAS-Installer\ITTAS-Installer.csproj", "{3C4C19B6-3429-4E51-8F42-293A43E7E642}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ITTAS-Installer-Setup", "ITTAS-Installer-Setup\ITTAS-Installer-Setup.vdproj", "{E963F4B2-D9F9-47D3-BD1E-EA755FC17738}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C4C19B6-3429-4E51-8F42-293A43E7E642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C4C19B6-3429-4E51-8F42-293A43E7E642}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C4C19B6-3429-4E51-8F42-293A43E7E642}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E963F4B2-D9F9-47D3-BD1E-EA755FC17738}.Debug|Any CPU.ActiveCfg = Debug
+		{E963F4B2-D9F9-47D3-BD1E-EA755FC17738}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ED84C337-1CF1-4F1E-BD7A-F7C10EE92F5B}
+	EndGlobalSection
+EndGlobal
