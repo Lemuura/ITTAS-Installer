@@ -55,6 +55,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -208,7 +216,7 @@
             }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_FE90443A47F341D3AB52D4D5677D16D9"
             {
-            "DefaultLocation" = "8:[ProgramFiles64Folder]"
+            "DefaultLocation" = "8:[ProgramFiles64Folder]\\ITTAS-Installer"
             "Name" = "8:#1925"
             "AlwaysCreate" = "11:FALSE"
             "Condition" = "8:"
@@ -246,7 +254,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ITTAS-Installer"
         "ProductCode" = "8:{23EAE842-2758-4F7E-92F8-01FD72689451}"
-        "PackageCode" = "8:{0B273FD5-44CE-4514-B993-879D5FE64974}"
+        "PackageCode" = "8:{D3E39B8C-D057-42D1-8D4C-6A8C2227C063}"
         "UpgradeCode" = "8:{4A1A898C-81F9-4775-A5BF-FA26215A3FE7}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
