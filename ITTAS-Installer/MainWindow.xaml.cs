@@ -143,7 +143,7 @@ namespace ITTAS_Installer
             }
         }
 
-        private void GetModFiles()
+        private bool CheckModFolder()
         {
             if (!Directory.Exists("mods"))
             {
@@ -152,10 +152,23 @@ namespace ITTAS_Installer
                 {
                     Directory.CreateDirectory("Mods");
                     MessageBox.Show("Created \"Mods\" directory!");
+                    return true;
                 }
-                return;
-
+                else
+                {
+                    return false;
+                }
             }
+            else
+            {
+                return true;
+            }
+        }
+
+        private void GetModFiles()
+        {
+            if (!CheckModFolder())
+                return;
 
             string[] files = Directory.GetFiles("mods");
             saveListBox.Items.Clear();
@@ -233,40 +246,43 @@ namespace ITTAS_Installer
             }
 
             CheckScript();
-            MessageBox.Show("This will take a moment...");
 
-            try
+            MessageBoxResult installresult = MessageBox.Show("Are you sure you want to install \"" + modToLoad.Replace("mods\\", "") + "\"? \nThis will take a moment...", "", MessageBoxButton.YesNo);
+            if (installresult == MessageBoxResult.Yes)
             {
-                ExtractModFile(modToLoad);
-
-                if (!System.IO.File.Exists(temp + "\\vino\\characters\\PlayerCharacter.as"))
+                try
                 {
-                    MessageBoxResult result = MessageBox.Show("Can't locate \"PlayerCharacter.as\", are you sure this is an It Takes Two mod?", "File not found", MessageBoxButton.YesNo);
-                    if (result == MessageBoxResult.No)
+                    ExtractModFile(modToLoad);
+
+                    if (!System.IO.File.Exists(temp + "\\vino\\characters\\PlayerCharacter.as"))
                     {
-                        Directory.Delete(temp, true);
-                        return;
+                        MessageBoxResult result = MessageBox.Show("Can't locate \"PlayerCharacter.as\", are you sure this is an It Takes Two mod?", "File not found", MessageBoxButton.YesNo);
+                        if (result == MessageBoxResult.No)
+                        {
+                            Directory.Delete(temp, true);
+                            return;
+                        }
                     }
+
+                    DeleteModsFolders();
+
+                    if (!Directory.Exists(script + "\\PrecompiledScript"))
+                        Directory.CreateDirectory(script + "\\PrecompiledScript");
+
+                    if (System.IO.File.Exists(script + "\\PrecompiledScript.Cache"))
+                        System.IO.File.Move(script + "\\PrecompiledScript.Cache", script + "\\PrecompiledScript\\PrecompiledScript.Cache", true);
+
+                    CopyFilesRecursively(temp, script);
+
+                    Directory.Delete(temp, true);
+
+                    MessageBox.Show("Installed mod!");
                 }
-
-                DeleteModsFolders();
-
-                if (!Directory.Exists(script + "\\PrecompiledScript"))
-                    Directory.CreateDirectory(script + "\\PrecompiledScript");
-
-                if (System.IO.File.Exists(script + "\\PrecompiledScript.Cache"))
-                    System.IO.File.Move(script + "\\PrecompiledScript.Cache", script + "\\PrecompiledScript\\PrecompiledScript.Cache", true);
-
-                CopyFilesRecursively(temp, script);
-
-                Directory.Delete(temp, true);
-
-                MessageBox.Show("Installed mod!");
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Error");
-            }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message, "Error");
+                }
+            } 
         }
 
         private void ExtractModFile(string modToLoad)
@@ -378,17 +394,8 @@ namespace ITTAS_Installer
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
-            if (!Directory.Exists("mods"))
-            {
-                MessageBoxResult result = MessageBox.Show("Can't find the \"Mods\" directory, want to create it?", "Directory not found", MessageBoxButton.YesNo);
-                if (result == MessageBoxResult.Yes)
-                {
-                    Directory.CreateDirectory("Mods");
-                    MessageBox.Show("Created \"Mods\" directory!");
-                }
-                else
-                    return;
-            }
+            if (!CheckModFolder())
+                return;
 
             try
             {
@@ -417,6 +424,24 @@ namespace ITTAS_Installer
             {
                 MessageBox.Show(exception.Message, "Error");
             }
+        }
+
+        private void openModBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!CheckModFolder())
+            {
+                return;
+            }
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                Arguments = "mods",
+                FileName = "explorer.exe",
+            };
+
+            Process.Start(startInfo);
+
+
         }
 
         private void debugViewModeBtn_Click(object sender, RoutedEventArgs e)

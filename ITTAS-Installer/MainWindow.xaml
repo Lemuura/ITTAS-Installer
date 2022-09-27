@@ -5,22 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ITTAS_Installer"
         mc:Ignorable="d"
-        Title="It Takes Two - Angelscript Mod Installer" Height="497" Width="478" Background="#FF292929" ResizeMode="CanMinimize">
+        Title="It Takes Two Angelscript Mod Installer" Height="497" Width="478" Background="#FF292929" ResizeMode="CanMinimize">
     <Grid>
         <Label Content="Mods" HorizontalAlignment="Left" Height="40" Margin="10,3,0,0" VerticalAlignment="Top" Width="233" Foreground="White" FontSize="22"/>
 
         <ListBox x:Name="saveListBox" HorizontalAlignment="Left" Height="401" Margin="10,45,0,0" VerticalAlignment="Top" Width="278" Foreground="White" Background="#FF292929" AllowDrop="True" DragEnter="saveListBox_DragEnter" Drop="saveListBox_DragDrop" FontSize="16"/>
         <Button x:Name="installBtn" Content="Install" HorizontalAlignment="Left" Height="61" Margin="300,385,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF4EAE4A" Foreground="White" BorderBrush="#FF040404" Click="installBtn_Click" ToolTip="Install the selected mod"/>
         <Button x:Name="refreshBtn" Content="Refresh" HorizontalAlignment="Left" Height="28" Margin="300,10,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="refreshBtn_Click" ToolTip="Refresh the mod list"/>
-        <Button x:Name="uninstallBtn" Content="Uninstall" HorizontalAlignment="Left" Height="29" Margin="300,279,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="uninstallBtn_Click" ToolTip="Uninstall mods from the game files"/>
+        <Button x:Name="uninstallBtn" Content="Uninstall" HorizontalAlignment="Left" Height="28" Margin="300,317,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="uninstallBtn_Click" ToolTip="Uninstall mods from the game files"/>
         <Button x:Name="backupBtn" Content="Create Backup" HorizontalAlignment="Left" Height="29" Margin="300,45,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="backupBtn_Click" ToolTip="Create a backup of your current &quot;nuts\script&quot; folder"/>
         <Button x:Name="precompiledBtn" HorizontalAlignment="Left" Height="52" Margin="300,80,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="precompiledBtn_Click" ToolTip="Enables or Disabled the precompiled script. When it's enabled mods won't be loaded by the game.">
             <TextBlock x:Name="precompiledText" Text="Move Precompiled Script Cache" TextWrapping="Wrap" TextAlignment="Center"/>
         </Button>
-        <Button x:Name="deleteModBtn" Content="Delete Mod" HorizontalAlignment="Left" Height="29" Margin="300,244,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="deleteModBtn_Click" ToolTip="Deletes a mod from the list"/>
+        <Button x:Name="deleteModBtn" Content="Delete Mod" HorizontalAlignment="Left" Height="30" Margin="300,280,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="deleteModBtn_Click" ToolTip="Deletes a mod from the list"/>
         <Button x:Name="importModBtn" Content="Import Mod" HorizontalAlignment="Left" Height="28" Margin="300,210,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="importModBtn_Click" ToolTip="Imports a mod"/>
         <Button x:Name="downloadModBtn" Content="Download Mods" HorizontalAlignment="Left" Height="29" Margin="300,175,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="downloadModBtn_Click"/>
         <Button x:Name="debugViewModeBtn" Content="Install Debug View" HorizontalAlignment="Left" Height="29" Margin="300,139,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="debugViewModeBtn_Click" ToolTip="Adds r.ForceDebugViewModes=1 to your Engine.ini file, allowing you to view debug volumes in-game"/>
+        <Button x:Name="openModBtn" Content="Open Mods Folder" HorizontalAlignment="Left" Height="28" Margin="300,245,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="openModBtn_Click" ToolTip="Opens the mod folder"/>
     </Grid>
 </Window>
 

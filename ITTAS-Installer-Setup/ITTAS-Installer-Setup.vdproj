@@ -15,7 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_375AA4E450E1453DA574806BD52E3584"
+        "MsmKey" = "8:_1889D241C17848E7BAB93BB35367E8B9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_2EF3FB72A6974BB9A9D9C664AD2C7D7E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -27,7 +33,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_97C126BE38CC40579CD626FF17EDD781"
+        "MsmKey" = "8:_C99A3842103C42579751828B68AE9A84"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -62,6 +68,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -126,9 +140,29 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_375AA4E450E1453DA574806BD52E3584"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1889D241C17848E7BAB93BB35367E8B9"
             {
-            "SourcePath" = "8:..\\ITTAS-Installer\\bin\\Debug\\net6.0-windows\\Mods\\Freecam.zip"
+            "SourcePath" = "8:F:\\Games\\SteamLibrary\\steamapps\\common\\ItTakesTwo\\Mods\\Ready to ship\\Speedtools.zip"
+            "TargetName" = "8:Speedtools.zip"
+            "Tag" = "8:"
+            "Folder" = "8:_5BE834E776594C839EC5723978BBB8EF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2EF3FB72A6974BB9A9D9C664AD2C7D7E"
+            {
+            "SourcePath" = "8:F:\\Games\\SteamLibrary\\steamapps\\common\\ItTakesTwo\\Mods\\Ready to ship\\Freecam.zip"
             "TargetName" = "8:Freecam.zip"
             "Tag" = "8:"
             "Folder" = "8:_5BE834E776594C839EC5723978BBB8EF"
@@ -166,10 +200,10 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_97C126BE38CC40579CD626FF17EDD781"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C99A3842103C42579751828B68AE9A84"
             {
-            "SourcePath" = "8:..\\ITTAS-Installer\\bin\\Debug\\net6.0-windows\\Mods\\Speedtools.zip"
-            "TargetName" = "8:Speedtools.zip"
+            "SourcePath" = "8:F:\\Games\\SteamLibrary\\steamapps\\common\\ItTakesTwo\\Mods\\Ready to ship\\RoutingTools.zip"
+            "TargetName" = "8:RoutingTools.zip"
             "Tag" = "8:"
             "Folder" = "8:_5BE834E776594C839EC5723978BBB8EF"
             "Condition" = "8:"
@@ -1045,7 +1079,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_F700938562EE4500A45843BBE72CFE41"
             {
-            "SourcePath" = "8:..\\ITTAS-Installer\\obj\\Release\\net6.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\ITTAS-Installer\\obj\\Debug\\net6.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_FE90443A47F341D3AB52D4D5677D16D9"
