@@ -1,0 +1,129 @@
+﻿<Window x:Class="ITTAS_Installer.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ITTAS_Installer"
+        mc:Ignorable="d"
+        Title="It Takes Two Angelscript Mod Installer" Height="250" Width="414" Background="#FF18181B" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+    <Window.Resources>
+        <Style x:Key="ComboBoxTest2" TargetType="{x:Type ComboBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="3" Background="#FF3A3A3D" BorderBrush="Black" BorderThickness="0" />
+
+                                            <Path x:Name="Arrow" Grid.Column="1"  Fill="#FFEFEFF1" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                                                <Setter TargetName="Border" Property="Background" Value="#FF464649" />
+                                            </Trigger>
+                                            <Trigger Property="ToggleButton.IsChecked" Value="true">
+                                                <Setter TargetName="Border" Property="Background" Value="#FF464649" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" Margin="3"  />
+                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" Foreground="#FFEFEFF1" IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
+                                <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" Background="#FF3A3A3D" BorderBrush="#FF18181B" BorderThickness="1" />
+                                    <ScrollViewer SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="Margin" Value="0,4,0,0"/>
+                <Setter Property="Background" Value="#FF3A3A3D"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#FF464649" TargetName="Border">
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+
+
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground" Value="#FFEFEFF1"/>
+                <Setter Property="BorderBrush" Value="#FF040404"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Height" Value="28"/>
+                <Setter Property="Width" Value="150"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="UseLayoutRounding" Value="True"/>
+                <Style.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Style.Resources>
+            </Style>
+
+        </Grid.Resources>
+        <Label Content="Settings" HorizontalAlignment="Left" Height="60" Margin="8,0,0,0" VerticalAlignment="Top" Width="186" FontSize="22" Foreground="#FFEFEFF1"/>
+
+        <Button x:Name="refreshBtn" Content="Refresh" HorizontalAlignment="Left" Height="27" Margin="266,10,0,0" VerticalAlignment="Top" Width="120" FontSize="16" Background="#FF3A3A3D" Foreground="#FFEFEFF1" BorderBrush="#FF040404" Click="RefreshBtn_Click"/>
+
+        <StackPanel HorizontalAlignment="Left" Height="166" Margin="13,50,0,0" VerticalAlignment="Top" Width="373">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Margin" Value="0,3,0,0"/>
+                </Style>
+
+
+            </StackPanel.Resources>
+            <CheckBox x:Name="Speedtools" Margin="0,0,0,5" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Speedtools active on launch" FontSize="14"  Foreground="#FFEFEFF1" BorderBrush="#FF040404" Checked="Option_Checked" Unchecked="Option_Unchecked" IsChecked="False" Height="25" Width="317"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Text="Save State:  " Foreground="#FFEFEFF1" FontSize="14"/>
+                <ComboBox x:Name="Save1" Margin="0,0,5,0" Foreground="#FFEFEFF1" Width="120" Height="23" SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource ComboBoxTest2}"/>
+                <ComboBox x:Name="Save2" Foreground="#FFEFEFF1" Width="120" Height="23" SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource ComboBoxTest2}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Margin="0,0,0,0" Text="Load State:  " Foreground="#FFEFEFF1" FontSize="14"/>
+                <ComboBox x:Name="Load1" Margin="0,0,5,0" Foreground="#FFEFEFF1" Width="120" Height="23" SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource ComboBoxTest2}"/>
+                <ComboBox x:Name="Load2" Foreground="#FFEFEFF1" Width="120" Height="23" SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource ComboBoxTest2}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <TextBlock Margin="0,0,0,0" Text="Teleport to partner:  " Foreground="#FFEFEFF1" FontSize="14"/>
+                <ComboBox x:Name="Teleport1" Margin="0,0,5,0" Foreground="#FFEFEFF1" Width="120" Height="23" SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource ComboBoxTest2}"/>
+                <ComboBox x:Name="Teleport2" Foreground="#FFEFEFF1" Width="120" Height="23" SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource ComboBoxTest2}"/>
+            </StackPanel>
+            <Button x:Name="saveBtn" Margin="0,15,0,0" HorizontalAlignment="Right" Content="Save" Height="27" Width="120" FontSize="16" Background="#FF3A3A3D" Foreground="#FFEFEFF1" BorderBrush="#FF040404" Click="SaveBtn_Click"/>
+
+        </StackPanel>
+
+    </Grid>
+</Window>

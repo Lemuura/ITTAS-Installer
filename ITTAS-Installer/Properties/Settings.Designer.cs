@@ -34,5 +34,101 @@ namespace ITTAS_Installer.Properties {
                 this["FirstRunTime"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Speedtools {
+            get {
+                return ((bool)(this["Speedtools"]));
+            }
+            set {
+                this["Speedtools"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int Save1 {
+            get {
+                return ((int)(this["Save1"]));
+            }
+            set {
+                this["Save1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("8")]
+        public int Save2 {
+            get {
+                return ((int)(this["Save2"]));
+            }
+            set {
+                this["Save2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Load1 {
+            get {
+                return ((int)(this["Load1"]));
+            }
+            set {
+                this["Load1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int Load2 {
+            get {
+                return ((int)(this["Load2"]));
+            }
+            set {
+                this["Load2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("9")]
+        public int Teleport1 {
+            get {
+                return ((int)(this["Teleport1"]));
+            }
+            set {
+                this["Teleport1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("8")]
+        public int Teleport2 {
+            get {
+                return ((int)(this["Teleport2"]));
+            }
+            set {
+                this["Teleport2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DbgViewEnabled {
+            get {
+                return ((bool)(this["DbgViewEnabled"]));
+            }
+            set {
+                this["DbgViewEnabled"] = value;
+            }
+        }
     }
 }

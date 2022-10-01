@@ -54,6 +54,9 @@ namespace ITTAS_Installer
 
         private void InitialCheck()
         {
+            if (Settings.Default.DbgViewEnabled)
+                debugViewModeBtn.Visibility = Visibility.Collapsed;
+
             Precomp();
 
             if (Settings.Default.FirstRunTime)
@@ -82,9 +85,16 @@ namespace ITTAS_Installer
                     }
                 }
 
+                MessageBoxResult dbgResult = MessageBox.Show(
+                    "It's also recommended to enable \"ForceDebugViewModes\" in your Engine.ini file." +
+                    "\nWant to do that now?", "", MessageBoxButton.YesNo);
+                if (dbgResult == MessageBoxResult.Yes)
+                    EnableDebugViewMode();
+
                 Settings.Default.FirstRunTime = false;
                 Settings.Default.Save();
             }
+
         }
 
         private bool Precomp()
@@ -180,7 +190,7 @@ namespace ITTAS_Installer
             }
         }
 
-        private static void CopyFilesRecursively(string sourcePath, string targetPath)
+        public static void CopyFilesRecursively(string sourcePath, string targetPath)
         {
             //Now Create all of the directories
             foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
@@ -273,6 +283,8 @@ namespace ITTAS_Installer
                         System.IO.File.Move(script + "\\PrecompiledScript.Cache", script + "\\PrecompiledScript\\PrecompiledScript.Cache", true);
 
                     CopyFilesRecursively(temp, script);
+                    if (File.Exists("mods\\settings\\SpeedSettings.as"))
+                        CopyFilesRecursively("mods\\settings", script);
 
                     Directory.Delete(temp, true);
 
@@ -283,6 +295,9 @@ namespace ITTAS_Installer
                     MessageBox.Show(exception.Message, "Error");
                 }
             } 
+
+            // TODO
+            // Move settings file to script folder
         }
 
         private void ExtractModFile(string modToLoad)
@@ -301,7 +316,7 @@ namespace ITTAS_Installer
                 Directory.Delete(script + "\\speed", true);
         }
 
-        private void uninstallBtn_Click(object sender, RoutedEventArgs e)
+        private void UninstallBtn_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -316,6 +331,7 @@ namespace ITTAS_Installer
                         System.IO.File.Move(script + "\\PrecompiledScript\\PrecompiledScript.Cache", script + "\\PrecompiledScript.Cache", true);
                     Directory.Delete(script + "\\PrecompiledScript", true);
                 }
+                Precomp();
 
                 // Check if Default Game Backup exists
                 if (System.IO.File.Exists("mods\\Default-Game-Backup.zip"))
@@ -328,7 +344,8 @@ namespace ITTAS_Installer
                 else
                 {
                     MessageBox.Show("Can't locate the \"Default-Game-Backup\" file. You will need to verify the integrity of game files in Steam or repair game files through Origin.", "Can't locate file");
-                } 
+                }
+               
             }
             catch (Exception exception)
             {
@@ -363,7 +380,125 @@ namespace ITTAS_Installer
             }
         }
 
-        private void deleteModBtn_Click(object sender, RoutedEventArgs e)
+        private void ImportModBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            if (!CheckModFolder())
+                return;
+
+            try
+            {
+                if (openFileDialog.ShowDialog() == true)
+                    System.IO.File.Copy(openFileDialog.FileName, "mods\\" + openFileDialog.SafeFileName);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error");
+            }
+
+            GetModFiles();
+        }
+
+        private void DownloadModBtn_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://github.com/Lemuura/It-Takes-Two-Mods/releases",
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error");
+            }
+        }
+
+        private void OpenModBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!CheckModFolder())
+            {
+                return;
+            }
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                Arguments = "mods",
+                FileName = "explorer.exe",
+            };
+
+            Process.Start(startInfo);
+
+
+        }
+
+        private void EnableDebugViewMode()
+        {
+            try
+            {
+                string enginePath = lad + "\\ItTakesTwo\\Saved\\Config\\WindowsNoEditor\\Engine.ini";
+                Settings.Default.Reload();
+
+                if (!System.IO.File.Exists(enginePath))
+                {
+                    MessageBox.Show("Engine.ini file can't be located. Has it been moved or deleted?", "File not found");
+                    return;
+                }
+                else
+                {
+                    string[] engineLines = System.IO.File.ReadAllLines(enginePath);
+                    engineLinesList = engineLines.ToList();
+
+                    Console.WriteLine("Contents of Engine.ini = ");
+                    foreach (string line in engineLinesList)
+                    {
+                        Console.WriteLine("\t" + line);
+                    }
+
+                    if (engineLinesList.Contains("r.ForceDebugViewModes=1"))
+                    {
+                        MessageBox.Show("Force Debug View Modes is already enabled.");
+                        debugViewModeBtn.Visibility = Visibility.Collapsed;
+                        Settings.Default.DbgViewEnabled = true;
+                        return;
+                    }
+                    else
+                    {
+                        engineWrite.Add("[/script/engine.renderersettings]");
+                        engineWrite.Add("r.ForceDebugViewModes=1");
+                        engineWrite.Add("");
+                        engineWrite.AddRange(engineLinesList);
+
+                        engineLines = engineWrite.ToArray();
+                        System.IO.File.WriteAllLinesAsync(enginePath, engineWrite);
+
+                        debugViewModeBtn.Visibility = Visibility.Collapsed;
+                        Settings.Default.DbgViewEnabled = true;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error");
+            }
+        }
+
+        private void debugViewModeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            EnableDebugViewMode();
+            Settings.Default.Save();
+        }
+        private void settingsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow settingsWindow = new SettingsWindow();
+            Settings.Default.Reload();
+            settingsWindow.CheckSettings();
+            settingsWindow.ShowDialog();
+        }
+
+        private void MenuItemDelete_Click(object sender, RoutedEventArgs e)
         {
             if (saveListBox.SelectedItem == null)
             {
@@ -386,107 +521,32 @@ namespace ITTAS_Installer
                 System.IO.File.Delete(modToDelete);
                 GetModFiles();
             }
-
-
         }
 
-        private void importModBtn_Click(object sender, RoutedEventArgs e)
+        private void MenuItemRename_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            if (!CheckModFolder())
+            if (saveListBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a mod to rename!", "No mod selected");
                 return;
-
-            try
-            {
-                if (openFileDialog.ShowDialog() == true)
-                    System.IO.File.Copy(openFileDialog.FileName, "mods\\" + openFileDialog.SafeFileName);
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Error");
             }
 
+            string modName = saveListBox.SelectedItem.ToString().Replace("System.Windows.Controls.ListBoxItem: ", "");
+            string modToRename = "mods\\" + modName + ".zip";
+
+            if (!System.IO.File.Exists(modToRename))
+            {
+                MessageBox.Show("Mod can't be located. Has it been moved or deleted?", "File not found");
+                GetModFiles();
+                return;
+            }
+
+            DialogWindow inputDialog = new DialogWindow("Rename mod:", modName);
+            if(inputDialog.ShowDialog() == true)
+            {
+                System.IO.File.Move(modToRename, "mods\\" + inputDialog.Answer + ".zip");
+            }
             GetModFiles();
-        }
-
-        private void downloadModBtn_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = "https://github.com/Lemuura/It-Takes-Two-Mods/releases",
-                    UseShellExecute = true
-                });
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Error");
-            }
-        }
-
-        private void openModBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (!CheckModFolder())
-            {
-                return;
-            }
-
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                Arguments = "mods",
-                FileName = "explorer.exe",
-            };
-
-            Process.Start(startInfo);
-
-
-        }
-
-        private void debugViewModeBtn_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                string enginePath = lad +"\\ItTakesTwo\\Saved\\Config\\WindowsNoEditor\\Engine.ini";
-
-                if (!System.IO.File.Exists(enginePath))
-                {
-                    MessageBox.Show("Engine.ini file can't be located. Has it been moved or deleted?", "File not found");
-                    return;
-                }
-                else
-                {
-                    string[] engineLines = System.IO.File.ReadAllLines(enginePath);
-                    engineLinesList = engineLines.ToList();
-
-                    Console.WriteLine("Contents of Engine.ini = ");
-                    foreach (string line in engineLinesList)
-                    {
-                        Console.WriteLine("\t" + line);
-                    }
-
-                    if (engineLinesList.Contains("r.ForceDebugViewModes=1"))
-                    {
-                        MessageBox.Show("Force Debug View Modes is already enabled.");
-                        return;
-                    }
-                    else
-                    {
-                        engineWrite.Add("[/script/engine.renderersettings]");
-                        engineWrite.Add("r.ForceDebugViewModes=1");
-                        engineWrite.Add("");
-                        engineWrite.AddRange(engineLinesList);
-
-                        engineLines = engineWrite.ToArray();
-                        System.IO.File.WriteAllLinesAsync(enginePath, engineWrite);
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Error");
-            }
         }
     }
 }

@@ -5,24 +5,224 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ITTAS_Installer"
         mc:Ignorable="d"
-        Title="It Takes Two Angelscript Mod Installer" Height="497" Width="478" Background="#FF292929" ResizeMode="CanMinimize">
-    <Grid>
-        <Label Content="Mods" HorizontalAlignment="Left" Height="40" Margin="10,3,0,0" VerticalAlignment="Top" Width="233" Foreground="White" FontSize="22"/>
+        Title="It Takes Two Angelscript Mod Installer" SizeToContent="WidthAndHeight" Background="#FF18181B" ResizeMode="CanMinimize">
+    <Window.Resources>
+        <ItemsPanelTemplate x:Key="MenuItemPanelTemplate">
+            <StackPanel Margin="-30,0,0,0"/>
+        </ItemsPanelTemplate>
+        
+        <Style x:Key="{x:Type Menu}" TargetType="Menu">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Foreground" Value="#FFEFEFF1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Menu">
+                        <Border x:Name="MainMenu" Background="#FF3A3A3D">
+                            <StackPanel ClipToBounds="True" Orientation="Horizontal" IsItemsHost="True"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-        <ListBox x:Name="saveListBox" HorizontalAlignment="Left" Height="401" Margin="10,45,0,0" VerticalAlignment="Top" Width="278" Foreground="White" Background="#FF292929" AllowDrop="True" DragEnter="saveListBox_DragEnter" Drop="saveListBox_DragDrop" FontSize="16"/>
-        <Button x:Name="installBtn" Content="Install" HorizontalAlignment="Left" Height="61" Margin="300,385,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF4EAE4A" Foreground="White" BorderBrush="#FF040404" Click="installBtn_Click" ToolTip="Install the selected mod"/>
-        <Button x:Name="refreshBtn" Content="Refresh" HorizontalAlignment="Left" Height="28" Margin="300,10,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="refreshBtn_Click" ToolTip="Refresh the mod list"/>
-        <Button x:Name="uninstallBtn" Content="Uninstall" HorizontalAlignment="Left" Height="28" Margin="300,317,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="uninstallBtn_Click" ToolTip="Uninstall mods from the game files"/>
-        <Button x:Name="backupBtn" Content="Create Backup" HorizontalAlignment="Left" Height="29" Margin="300,45,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="backupBtn_Click" ToolTip="Create a backup of your current &quot;nuts\script&quot; folder"/>
-        <Button x:Name="precompiledBtn" HorizontalAlignment="Left" Height="52" Margin="300,80,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="precompiledBtn_Click" ToolTip="Enables or Disabled the precompiled script. When it's enabled mods won't be loaded by the game.">
-            <TextBlock x:Name="precompiledText" Text="Move Precompiled Script Cache" TextWrapping="Wrap" TextAlignment="Center"/>
-        </Button>
-        <Button x:Name="deleteModBtn" Content="Delete Mod" HorizontalAlignment="Left" Height="30" Margin="300,280,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="deleteModBtn_Click" ToolTip="Deletes a mod from the list"/>
-        <Button x:Name="importModBtn" Content="Import Mod" HorizontalAlignment="Left" Height="28" Margin="300,210,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="importModBtn_Click" ToolTip="Imports a mod"/>
-        <Button x:Name="downloadModBtn" Content="Download Mods" HorizontalAlignment="Left" Height="29" Margin="300,175,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="downloadModBtn_Click"/>
-        <Button x:Name="debugViewModeBtn" Content="Install Debug View" HorizontalAlignment="Left" Height="29" Margin="300,139,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="debugViewModeBtn_Click" ToolTip="Adds r.ForceDebugViewModes=1 to your Engine.ini file, allowing you to view debug volumes in-game"/>
-        <Button x:Name="openModBtn" Content="Open Mods Folder" HorizontalAlignment="Left" Height="28" Margin="300,245,0,0" VerticalAlignment="Top" Width="150" FontSize="16" Background="#FF666666" Foreground="White" BorderBrush="#FF040404" Click="openModBtn_Click" ToolTip="Opens the mod folder"/>
-    </Grid>
+        <ControlTemplate x:Key="MenuItemControlTemplate1" TargetType="{x:Type MenuItem}">
+            <Border x:Name="templateRoot" 
+                    BorderBrush="#535353" 
+                    CornerRadius="0" 
+                    BorderThickness="0" 
+                    Background="{TemplateBinding Background}" 
+                    SnapsToDevicePixels="True">
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+
+                    <ContentPresenter ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="1" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    <Popup x:Name="PART_Popup"  AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Bottom">
+                        <Border x:Name="SubMenuBorder" BorderBrush="#595959" BorderThickness="1" Background="#FF3A3A3D" Padding="2">
+                            <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                                <Grid RenderOptions.ClearTypeHint="Enabled">
+                                    <Canvas HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+                                        <Rectangle x:Name="OpaqueRect" Fill="{Binding Background, ElementName=SubMenuBorder}" Height="{Binding ActualHeight, ElementName=SubMenuBorder}" Width="{Binding ActualWidth, ElementName=SubMenuBorder}"/>
+                                    </Canvas>
+                                    <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsSuspendingPopupAnimation" Value="True">
+                    <Setter Property="PopupAnimation" TargetName="PART_Popup" Value="None"/>
+                </Trigger>
+                <Trigger Property="IsHighlighted" Value="True">
+                    <Setter Property="Background" TargetName="templateRoot" Value="#464649"/>
+                    <Setter Property="BorderBrush" TargetName="templateRoot" Value="#2C2C2C"/>
+                    <Setter Property="BorderThickness" TargetName="templateRoot" Value="0"/>
+                </Trigger>
+
+                <Trigger Property="CanContentScroll" SourceName="SubMenuScrollViewer" Value="False">
+                    <Setter Property="Canvas.Top" TargetName="OpaqueRect" Value="{Binding VerticalOffset, ElementName=SubMenuScrollViewer}"/>
+                    <Setter Property="Canvas.Left" TargetName="OpaqueRect" Value="{Binding HorizontalOffset, ElementName=SubMenuScrollViewer}"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                    <Setter TargetName="templateRoot" Property="Background" Value="#3A3A3D" />
+                    <Setter Property="Header" Value="Test" />
+                    <Setter Property="BorderBrush" Value="#2C2C2C"></Setter>
+                    <Setter Property="BorderThickness" Value="0"></Setter>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="{x:Type ContextMenu}" TargetType="{x:Type ContextMenu}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <Border x:Name="Border" Background="#FF3A3A3D" CornerRadius="3" BorderBrush="#FF040404" BorderThickness="1">
+                            <StackPanel ClipToBounds="True" Orientation="Vertical" IsItemsHost="True" Margin="0,0,0,0"/>
+                        </Border>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
+
+    </Window.Resources>
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" Background="#FF292929" Foreground="#FFEFEFF1" BorderBrush="#FF040404">
+            
+            <MenuItem Header="_File" Template="{DynamicResource MenuItemControlTemplate1}">
+
+                <MenuItem Header="_Open Mods Folder" Click="OpenModBtn_Click"/>
+
+                <MenuItem Header="_Import Mods" Click="ImportModBtn_Click"/>
+                <MenuItem Header="_Download Mods" Click="DownloadModBtn_Click"/>
+                <MenuItem Header="_Install DebugView" Click="debugViewModeBtn_Click"/>
+                <Separator/>
+                <MenuItem Header="_Uninstall" Click="UninstallBtn_Click"/>
+
+            </MenuItem>
+            <MenuItem Header="_Edit" Template="{DynamicResource MenuItemControlTemplate1}">
+                <MenuItem Header="_Rename" Click="MenuItemRename_Click"/>
+                <MenuItem Header="_Delete" Click="MenuItemDelete_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Margin="10" DockPanel.Dock="Top">
+
+            <Label Content="Mods" HorizontalAlignment="Left" Height="40" Margin="-2,-10,0,0" VerticalAlignment="Top" Width="233" Foreground="#FFEFEFF1" FontSize="22"/>
+
+            <ListBox x:Name="saveListBox" HorizontalAlignment="Left" BorderThickness="0" Height="380" Margin="0,32,0,0" VerticalAlignment="Top" Width="278" Foreground="#FFEFEFF1" Background="#FF3A3A3D" AllowDrop="True" DragEnter="saveListBox_DragEnter" Drop="saveListBox_DragDrop" FontSize="16">
+                <ListBox.Resources>
+                    <ContextMenu x:Key="MyElementMenu">
+
+                        <MenuItem Header="Rename" FontSize="12" Click="MenuItemRename_Click"/>
+                        <MenuItem Header="Delete" FontSize="12" Click="MenuItemDelete_Click"/>
+                    </ContextMenu>
+                    <Style TargetType="ListBox">
+                        <Style.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </Style.Resources>
+                    </Style>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#ff464649" TargetName="Border"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#ff464649" TargetName="Border"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="ContextMenu" Value="{StaticResource MyElementMenu}"/>
+
+                        <Style.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </Style.Resources>
+                    </Style>
+                </ListBox.Resources>
+            </ListBox>
+            
+                
+            <Grid Margin="290,0,0,0">
+                <Grid.Resources>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Margin" Value="0,4,0,0"/>
+                        <Setter Property="Background" Value="#FF3A3A3D"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type Button}">
+                                    <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#FF464649" TargetName="Border">
+                                            </Setter>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                                
+                                
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Foreground" Value="#FFEFEFF1"/>
+                        <Setter Property="BorderBrush" Value="#FF040404"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="FontSize" Value="16"/>
+                        <Setter Property="Height" Value="28"/>
+                        <Setter Property="Width" Value="150"/>
+                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                        <Setter Property="UseLayoutRounding" Value="True"/>
+                        <Style.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </Style.Resources>
+                    </Style>
+                    
+                </Grid.Resources>
+
+                <StackPanel Margin="0,-4,0,0" VerticalAlignment="Top" UseLayoutRounding="False">
+                    <Button x:Name="refreshBtn" Content="Refresh" Click="refreshBtn_Click" ToolTip="Refresh the mod list"/>
+                    <Button x:Name="settingsBtn" Content="Settings" Click="settingsBtn_Click" ToolTip="Settings"/>
+                    <Button x:Name="backupBtn" Content="Create Backup" Click="backupBtn_Click" ToolTip="Create a backup of your current &quot;nuts\script&quot; folder"/>
+                    <Button x:Name="debugViewModeBtn" Content="Install Debug View" Click="debugViewModeBtn_Click" ToolTip="Adds r.ForceDebugViewModes=1 to your Engine.ini file, allowing you to view debug volumes in-game"/>
+    
+                </StackPanel>
+                <StackPanel VerticalAlignment="Bottom">
+                    <Button x:Name="precompiledBtn" Height="52" Click="precompiledBtn_Click" ToolTip="Enables or Disabled the precompiled script. When it's enabled mods won't be loaded by the game.">
+                        <TextBlock x:Name="precompiledText" Text="Move Precompiled Script Cache" TextWrapping="Wrap" TextAlignment="Center"/>
+                        
+                    </Button>
+                    <Button x:Name="installBtn" Content="Install" Height="61" Background="#FF4EAE4A" Click="installBtn_Click" ToolTip="Install the selected mod"/>
+                </StackPanel>
+                
+            </Grid>
+        </Grid>
+    </DockPanel>
 </Window>
 
 
