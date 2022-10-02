@@ -283,7 +283,7 @@ namespace ITTAS_Installer
                         System.IO.File.Move(script + "\\PrecompiledScript.Cache", script + "\\PrecompiledScript\\PrecompiledScript.Cache", true);
 
                     CopyFilesRecursively(temp, script);
-                    if (File.Exists("mods\\settings\\SpeedSettings.as"))
+                    if (File.Exists("mods\\settings\\speed\\SpeedSettings.as"))
                         CopyFilesRecursively("mods\\settings", script);
 
                     Directory.Delete(temp, true);
