@@ -18,7 +18,7 @@ namespace ITTAS_Installer
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        string temp = "mods\\temp";
+        //string temp = "mods\\temp";
         string settings = "mods\\settings\\speed\\SpeedSettings.as";
 
         private List<string> settingsContents = new List<string>();
@@ -137,6 +137,19 @@ namespace ITTAS_Installer
         {
             SaveSettingsFile();
             Settings.Default.Save();
+        }
+
+        private void DefaultBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.Speedtools = false;
+            Settings.Default.Save1 = 5;
+            Settings.Default.Save2 = 8;
+            Settings.Default.Load1 = 0;
+            Settings.Default.Load2 = 5;
+            Settings.Default.Teleport1 = 9;
+            Settings.Default.Teleport2 = 8;
+
+            CheckSettings();
         }
 
         private void SaveSettingsFile()

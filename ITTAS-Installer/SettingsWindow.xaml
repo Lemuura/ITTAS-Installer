@@ -121,7 +121,12 @@
                 <ComboBox x:Name="Teleport1" Margin="0,0,5,0" Foreground="#FFEFEFF1" Width="120" Height="23" SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource ComboBoxTest2}"/>
                 <ComboBox x:Name="Teleport2" Foreground="#FFEFEFF1" Width="120" Height="23" SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource ComboBoxTest2}"/>
             </StackPanel>
-            <Button x:Name="saveBtn" Margin="0,15,0,0" HorizontalAlignment="Right" Content="Save" Height="27" Width="120" FontSize="16" Background="#FF3A3A3D" Foreground="#FFEFEFF1" BorderBrush="#FF040404" Click="SaveBtn_Click"/>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,15,0,0">
+                <Button x:Name="defaultBtn" HorizontalAlignment="Right" Margin="0,0,5,0" Content="Default" Height="27" Width="120" FontSize="16" Background="#FF3A3A3D" Foreground="#FFEFEFF1" BorderBrush="#FF040404" Click="DefaultBtn_Click"/>
+                <Button x:Name="saveBtn"  HorizontalAlignment="Right" Content="Save" Height="27" Width="120" FontSize="16" Background="#FF3A3A3D" Foreground="#FFEFEFF1" BorderBrush="#FF040404" Click="SaveBtn_Click" Margin="0,0,0,0"/>
+                
+            </StackPanel>
+            
 
         </StackPanel>
 
