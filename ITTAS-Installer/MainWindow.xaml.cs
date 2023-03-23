@@ -245,12 +245,24 @@ namespace ITTAS_Installer
                 MessageBox.Show("Please select a mod to install!", "No mod selected");
                 return;
             }
+            string modToLoad = string.Empty;
+            int lastColonIndex = saveListBox.SelectedItem.ToString().LastIndexOf(": ");
+            if (lastColonIndex != -1)
+            {
+                string modName = saveListBox.SelectedItem.ToString().Substring(lastColonIndex + 2);
+                
+                modToLoad = "mods\\" + modName + ".zip";
+            }
 
-            string modToLoad = "mods\\" + saveListBox.SelectedItem.ToString().Replace("System.Windows.Controls.ListBoxItem: ", "") + ".zip";
+            if (modToLoad == string.Empty)
+            {
+                MessageBox.Show("Index of \": \" was not valid.\nSelected Item: " + saveListBox.SelectedItem.ToString(), "Error");
+                return;
+            }
 
             if (!System.IO.File.Exists(modToLoad))
             {
-                MessageBox.Show("Mod can't be located. Has it been moved or deleted?", "File not found");
+                MessageBox.Show(modToLoad + " can't be located. Has it been moved or deleted?", "File not found");
                 GetModFiles();
                 return;
             }
