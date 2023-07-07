@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ITTAS_Installer"
         mc:Ignorable="d"
-        Title="It Takes Two Angelscript Mod Installer" Height="250" Width="414" Background="#FF18181B" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+        Title="It Takes Two Angelscript Mod Installer" SizeToContent="WidthAndHeight" Background="#FF18181B" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
     <Window.Resources>
         <Style x:Key="ComboBoxTest2" TargetType="{x:Type ComboBox}">
             <Setter Property="Template">
@@ -54,7 +54,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Margin="10">
         <Grid.Resources>
             <Style TargetType="{x:Type Button}">
                 <Setter Property="Margin" Value="0,4,0,0"/>
@@ -92,19 +92,29 @@
             </Style>
 
         </Grid.Resources>
-        <Label Content="Settings" HorizontalAlignment="Left" Height="60" Margin="8,0,0,0" VerticalAlignment="Top" Width="186" FontSize="22" Foreground="#FFEFEFF1"/>
-
-        <Button x:Name="refreshBtn" Content="Refresh" HorizontalAlignment="Left" Height="27" Margin="266,10,0,0" VerticalAlignment="Top" Width="120" FontSize="16" Background="#FF3A3A3D" Foreground="#FFEFEFF1" BorderBrush="#FF040404" Click="RefreshBtn_Click"/>
-
-        <StackPanel HorizontalAlignment="Left" Height="166" Margin="13,50,0,0" VerticalAlignment="Top" Width="373">
+       
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+            
             <StackPanel.Resources>
                 <Style TargetType="{x:Type StackPanel}">
                     <Setter Property="Margin" Value="0,3,0,0"/>
                 </Style>
-
-
+                <Style TargetType="{x:Type CheckBox}">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Margin" Value="10,0,10,0"/>
+                    <Setter Property="Foreground" Value="#FFEFEFF1"/>
+                    <Setter Property="Height" Value="25"/>
+                    <Setter Property="BorderBrush" Value="#FF040404"/>
+                </Style>
             </StackPanel.Resources>
-            <CheckBox x:Name="Speedtools" Margin="0,0,0,5" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Speedtools active on launch" FontSize="14"  Foreground="#FFEFEFF1" BorderBrush="#FF040404" Checked="Option_Checked" Unchecked="Option_Unchecked" IsChecked="False" Height="25" Width="317"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Label Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="22" Foreground="#FFEFEFF1"/>
+                <Button x:Name="refreshBtn" Content="Refresh" HorizontalAlignment="Left" Height="27" Margin="200,10,0,0" VerticalAlignment="Top" Width="120" FontSize="16" Background="#FF3A3A3D" Foreground="#FFEFEFF1" BorderBrush="#FF040404" Click="RefreshBtn_Click"/>
+            </StackPanel>
+            
+            <CheckBox x:Name="Speedtools" Content="Speedtools active on launch" Checked="Option_Checked" Unchecked="Option_Unchecked" IsChecked="False"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock Text="Save State:  " Foreground="#FFEFEFF1" FontSize="14"/>
@@ -121,6 +131,14 @@
                 <ComboBox x:Name="Teleport1" Margin="0,0,5,0" Foreground="#FFEFEFF1" Width="120" Height="23" SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource ComboBoxTest2}"/>
                 <ComboBox x:Name="Teleport2" Foreground="#FFEFEFF1" Width="120" Height="23" SelectionChanged="ComboBox_SelectionChanged" Style="{StaticResource ComboBoxTest2}"/>
             </StackPanel>
+
+            <TextBlock Margin="0,30,0,10" Text="Engine.Ini settings" Foreground="#FFEFEFF1" FontSize="16"/>
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
+                <CheckBox x:Name="forceDebugView" Content="ForceDebugViewModes" Checked="Option_Checked" Unchecked="Option_Unchecked" IsChecked="False"/>
+                <CheckBox x:Name="diskCache" Content="DiskCache" Checked="Option_Checked" Unchecked="Option_Unchecked" IsChecked="False"/>
+            </StackPanel>
+            
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,15,0,0">
                 <Button x:Name="defaultBtn" HorizontalAlignment="Right" Margin="0,0,5,0" Content="Default" Height="27" Width="120" FontSize="16" Background="#FF3A3A3D" Foreground="#FFEFEFF1" BorderBrush="#FF040404" Click="DefaultBtn_Click"/>
                 <Button x:Name="saveBtn"  HorizontalAlignment="Right" Content="Save" Height="27" Width="120" FontSize="16" Background="#FF3A3A3D" Foreground="#FFEFEFF1" BorderBrush="#FF040404" Click="SaveBtn_Click" Margin="0,0,0,0"/>

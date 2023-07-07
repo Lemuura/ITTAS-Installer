@@ -54,9 +54,6 @@ namespace ITTAS_Installer
 
         private void InitialCheck()
         {
-            if (Settings.Default.DbgViewEnabled)
-                debugViewModeBtn.Visibility = Visibility.Collapsed;
-
             Precomp();
 
             if (Settings.Default.FirstRunTime)
@@ -84,12 +81,6 @@ namespace ITTAS_Installer
                         MessageBox.Show(exception.Message, "Error");
                     }
                 }
-
-                MessageBoxResult dbgResult = MessageBox.Show(
-                    "It's also recommended to enable \"ForceDebugViewModes\" in your Engine.ini file." +
-                    "\nWant to do that now?", "", MessageBoxButton.YesNo);
-                if (dbgResult == MessageBoxResult.Yes)
-                    EnableDebugViewMode();
 
                 Settings.Default.FirstRunTime = false;
                 Settings.Default.Save();
@@ -446,66 +437,11 @@ namespace ITTAS_Installer
 
         }
 
-        private void EnableDebugViewMode()
-        {
-            try
-            {
-                string enginePath = lad + "\\ItTakesTwo\\Saved\\Config\\WindowsNoEditor\\Engine.ini";
-                Settings.Default.Reload();
-
-                if (!System.IO.File.Exists(enginePath))
-                {
-                    MessageBox.Show("Engine.ini file can't be located. Has it been moved or deleted?", "File not found");
-                    return;
-                }
-                else
-                {
-                    string[] engineLines = System.IO.File.ReadAllLines(enginePath);
-                    engineLinesList = engineLines.ToList();
-
-                    Console.WriteLine("Contents of Engine.ini = ");
-                    foreach (string line in engineLinesList)
-                    {
-                        Console.WriteLine("\t" + line);
-                    }
-
-                    if (engineLinesList.Contains("r.ForceDebugViewModes=1"))
-                    {
-                        MessageBox.Show("Force Debug View Modes is already enabled.");
-                        debugViewModeBtn.Visibility = Visibility.Collapsed;
-                        Settings.Default.DbgViewEnabled = true;
-                        return;
-                    }
-                    else
-                    {
-                        engineWrite.Add("[/script/engine.renderersettings]");
-                        engineWrite.Add("r.ForceDebugViewModes=1");
-                        engineWrite.Add("");
-                        engineWrite.AddRange(engineLinesList);
-
-                        engineLines = engineWrite.ToArray();
-                        System.IO.File.WriteAllLinesAsync(enginePath, engineWrite);
-
-                        debugViewModeBtn.Visibility = Visibility.Collapsed;
-                        Settings.Default.DbgViewEnabled = true;
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                MessageBox.Show(exception.Message, "Error");
-            }
-        }
-
-        private void debugViewModeBtn_Click(object sender, RoutedEventArgs e)
-        {
-            EnableDebugViewMode();
-            Settings.Default.Save();
-        }
         private void settingsBtn_Click(object sender, RoutedEventArgs e)
         {
             SettingsWindow settingsWindow = new SettingsWindow();
             Settings.Default.Reload();
+            settingsWindow.Owner = this;
             settingsWindow.CheckSettings();
             settingsWindow.ShowDialog();
         }

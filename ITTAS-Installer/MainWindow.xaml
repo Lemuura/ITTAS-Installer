@@ -107,7 +107,6 @@
 
                 <MenuItem Header="_Import Mods" Click="ImportModBtn_Click"/>
                 <MenuItem Header="_Download Mods" Click="DownloadModBtn_Click"/>
-                <MenuItem Header="_Install DebugView" Click="debugViewModeBtn_Click"/>
                 <Separator/>
                 <MenuItem Header="_Uninstall" Click="UninstallBtn_Click"/>
 
@@ -209,8 +208,7 @@
                     <Button x:Name="refreshBtn" Content="Refresh" Click="refreshBtn_Click" ToolTip="Refresh the mod list"/>
                     <Button x:Name="settingsBtn" Content="Settings" Click="settingsBtn_Click" ToolTip="Settings"/>
                     <Button x:Name="backupBtn" Content="Create Backup" Click="backupBtn_Click" ToolTip="Create a backup of your current &quot;nuts\script&quot; folder"/>
-                    <Button x:Name="debugViewModeBtn" Content="Install Debug View" Click="debugViewModeBtn_Click" ToolTip="Adds r.ForceDebugViewModes=1 to your Engine.ini file, allowing you to view debug volumes in-game"/>
-    
+
                 </StackPanel>
                 <StackPanel VerticalAlignment="Bottom">
                     <Button x:Name="precompiledBtn" Height="52" Click="precompiledBtn_Click" ToolTip="Enables or Disabled the precompiled script. When it's enabled mods won't be loaded by the game.">

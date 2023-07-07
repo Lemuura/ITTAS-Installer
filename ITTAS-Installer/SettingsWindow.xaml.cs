@@ -21,6 +21,10 @@ namespace ITTAS_Installer
         //string temp = "mods\\temp";
         string settings = "mods\\settings\\speed\\SpeedSettings.as";
 
+        string enginePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\ItTakesTwo\\Saved\\Config\\WindowsNoEditor\\Engine.ini";
+
+        List<string> engineLines = new List<string>();
+
         private List<string> settingsContents = new List<string>();
         private List<string> ActionNames = new List<string>()
         {
@@ -53,7 +57,92 @@ namespace ITTAS_Installer
             Load1.SelectedIndex = Settings.Default.Load1;
             Load2.SelectedIndex = Settings.Default.Load2;
             Teleport1.SelectedIndex = Settings.Default.Teleport1;
-            Teleport2.SelectedIndex = Settings.Default.Teleport2; 
+            Teleport2.SelectedIndex = Settings.Default.Teleport2;
+
+            ReadEngineIni();
+            forceDebugView.IsChecked = engineLines.Contains("r.ForceDebugViewModes=1");
+            diskCache.IsChecked = (engineLines.Contains("D3D12.PSO.DiskCache=1") || engineLines.Contains("D3D12.PSO.DriverOptimizedDiskCache=1"));
+        }
+
+        private void ReadEngineIni()
+        {
+            if (!System.IO.File.Exists(enginePath))
+            {
+                MessageBox.Show("Engine.ini file can't be located. Has it been moved or deleted?", "File not found");
+                return;
+            }
+
+            engineLines.Clear();
+            engineLines = System.IO.File.ReadAllLines(enginePath).ToList();
+
+            Console.WriteLine("Contents of Engine.ini = ");
+            foreach (string line in engineLines)
+            {
+                Console.WriteLine("\t" + line);
+            }
+        }
+
+        private void WriteEngineIni()
+        {
+            // Read file again to make sure it's 100% up to date
+            ReadEngineIni();
+
+            // Find or create [/script/engine.renderersettings]
+            int renderIndex = engineLines.IndexOf("[/script/engine.renderersettings]");
+            if (renderIndex == -1)
+            {
+                renderIndex = 0;
+                engineLines.Insert(renderIndex, "[/script/engine.renderersettings]");
+                engineLines.Insert(renderIndex + 1, "");
+            }
+
+            List<string> engineWrite = new List<string>();
+
+            // Add various lines we want in renderersettings.
+            if (forceDebugView.IsChecked == true && !engineLines.Contains("r.ForceDebugViewModes=1"))
+            {
+                engineWrite.Add("r.ForceDebugViewModes=1");
+            }
+            if (diskCache.IsChecked == true)
+            {
+                if (!engineLines.Contains("D3D12.PSO.DiskCache=1"))
+                {
+                    engineWrite.Add("D3D12.PSO.DiskCache=1");
+                }
+
+                if (!engineLines.Contains("D3D12.PSO.DriverOptimizedDiskCache=1"))
+                {
+                    engineWrite.Add("D3D12.PSO.DriverOptimizedDiskCache=1");
+                }
+            }
+
+            // Or remove if we don't want them anymore
+            if (forceDebugView.IsChecked != true)
+            {
+                int i = engineLines.IndexOf("r.ForceDebugViewModes=1");
+                if (i != -1)
+                {
+                    engineLines.RemoveAt(i);
+                }
+            }
+            if (diskCache.IsChecked != true)
+            {
+                int i = engineLines.IndexOf("D3D12.PSO.DiskCache=1");
+                if (i != -1)
+                {
+                    engineLines.RemoveAt(i);
+                }
+
+                i = engineLines.IndexOf("D3D12.PSO.DriverOptimizedDiskCache=1");
+                if (i != -1)
+                {
+                    engineLines.RemoveAt(i);
+                }
+            }
+
+            // Insert these into the final list under the correct header
+            engineLines.InsertRange(renderIndex + 1, engineWrite);
+            System.IO.File.WriteAllLinesAsync(enginePath, engineLines);
         }
 
         private void RefreshBtn_Click(object sender, RoutedEventArgs e)
@@ -136,6 +225,7 @@ namespace ITTAS_Installer
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             SaveSettingsFile();
+            WriteEngineIni();
             Settings.Default.Save();
         }
 
